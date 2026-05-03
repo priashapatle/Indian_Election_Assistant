@@ -1,16 +1,108 @@
-# React + Vite
+# 🇮🇳 Indian Election Assistant
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An interactive and engaging web application built to help citizens understand the world's largest democratic process. This assistant guides users through the various phases of the Indian Election System, teaches key electoral terminology using interactive flashcards, and provides an AI-powered chat interface to answer common questions.
 
-Currently, two official plugins are available:
+## 🌟 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Interactive Timeline:** A step-by-step visual guide covering everything from Voter Registration to Counting & Results.
+- **Terminology Flashcards:** 3D-flippable cards to quickly learn essential acronyms like EVM, VVPAT, NOTA, and MCC.
+- **Informational FAQ:** Comprehensive answers on eligibility, finding polling booths, and voter registration (Form 6).
+- **AI Chat Assistant:** A simulated conversational interface where users can ask questions and get instant, rule-based answers regarding the election process.
+- **Premium UI/UX:** Built with a modern dark-mode aesthetic featuring glassmorphism, responsive design, and smooth CSS animations.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🏗️ Architecture
 
-## Expanding the ESLint configuration
+The application is built using a modern frontend stack and containerized for scalable deployment on Google Cloud Platform.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```mermaid
+graph TD
+    User([Voter / User]) -->|Access Web App| Browser[Web Browser]
+    
+    subgraph Frontend [React Application - Vite]
+        UI[User Interface]
+        Components[Timeline, Flashcards, Chat]
+        UI --> Components
+    end
+    
+    Browser -->|HTTP Requests| CloudRun[Google Cloud Run]
+    
+    subgraph GCP [Google Cloud Platform]
+        CloudRun
+        DockerContainer[Nginx + React Static Build]
+        CloudRun --> DockerContainer
+    end
+    
+    DockerContainer -.->|Serves| Frontend
+```
+
+---
+
+## 📊 Election Process Flow
+
+Here is a high-level overview of the Indian Election phases represented in the application:
+
+```mermaid
+sequenceDiagram
+    participant Citizen as Citizen
+    participant ECI as Election Commission (ECI)
+    participant Candidate as Candidate
+    
+    Citizen->>ECI: Submits Form 6 (Registration)
+    ECI-->>Citizen: Issues EPIC (Voter ID)
+    
+    Note over ECI: Phase 2: Announcement
+    ECI->>ECI: Announces Election Dates
+    ECI->>Candidate: Imposes Model Code of Conduct (MCC)
+    
+    Note over Candidate: Phase 3: Nominations
+    Candidate->>ECI: Files Nomination Papers
+    Candidate->>Citizen: Campaigning & Rallies
+    
+    Note over Citizen, ECI: Phase 4: Polling Day
+    Citizen->>ECI: Votes via EVM & Verifies with VVPAT
+    
+    Note over ECI: Phase 5: Counting & Results
+    ECI->>ECI: Counts Votes in Strong Rooms
+    ECI-->>Citizen: Declares Winner (FPTP System)
+```
+
+---
+
+## 🚀 Local Development
+
+To run this project locally on your machine:
+
+1. **Install Dependencies:**
+   ```bash
+   npm install
+   ```
+
+2. **Start the Development Server:**
+   ```bash
+   npm run dev
+   ```
+
+3. Open your browser and navigate to `http://localhost:5173`.
+
+---
+
+## ☁️ GCP Deployment (Cloud Run)
+
+This project is configured to be deployed easily to Google Cloud Run using Docker.
+
+1. Build the Docker container locally (optional):
+   ```bash
+   docker build -t election-assistant .
+   ```
+
+2. Deploy directly to Google Cloud Run using the `gcloud` CLI:
+   ```bash
+   gcloud run deploy election-assistant --source . --port 8080 --allow-unauthenticated
+   ```
+
+## 🛠️ Tech Stack
+- **Frontend:** React, Vite, Lucide Icons
+- **Styling:** Vanilla CSS (Glassmorphism, Animations)
+- **Deployment:** Docker, Nginx, Google Cloud Run
