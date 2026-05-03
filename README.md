@@ -1,4 +1,4 @@
-# 🇮🇳 Indian Election Assistant
+# Indian Election Assistant
 
 **🌍 Live Demo:** [https://election-assistant-31432095152.asia-south1.run.app](https://election-assistant-31432095152.asia-south1.run.app)
 
